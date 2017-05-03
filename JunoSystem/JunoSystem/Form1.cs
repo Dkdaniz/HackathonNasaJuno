@@ -10,6 +10,11 @@ using System.IO;
 using System.Windows.Forms;
 using JunoSystem.CamadaBanco;
 using JunoSystem.CamadaNegocio;
+using MimeKit;
+using MailKit;
+using MailKit.Search;
+using MailKit.Security;
+using MailKit.Net.Imap;
 
 namespace JunoSystem
 {
@@ -161,6 +166,66 @@ namespace JunoSystem
                 {
                     MessageBox.Show("Existe Campos não Preenchidos");
                 }
+            }
+        }
+
+        public void DownloadBodyParts()
+        {
+            using (var client = new ImapClient())
+            {
+                client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
+
+                client.Authenticate("juno.spaceapp@gmail.com", "nasainjupter");
+
+                client.Inbox.Open(FolderAccess.ReadOnly);
+
+                // search for messages where the Subject header contains either "MimeKit" or "MailKit"
+                var query = SearchQuery.SubjectContains("FIRMS").Or(SearchQuery.SubjectContains("FIRMS"));
+                var uids = client.Inbox.Search(query);
+
+                // fetch summary information for the search results (we will want the UID and the BODYSTRUCTURE
+                // of each message so that we can extract the text body and the attachments)
+                var items = client.Inbox.Fetch(uids, MessageSummaryItems.UniqueId | MessageSummaryItems.BodyStructure);
+
+                foreach (var item in items)
+                {
+                    // determine a directory to save stuff in
+                    var directory = Path.Combine(@"C:\JunoRadio\");
+
+                    // create the directory
+                    Directory.CreateDirectory(directory);
+
+                    foreach (var attachment in item.Attachments)
+                    {
+                        // download the attachment just like we did with the body
+                        var entity = client.Inbox.GetBodyPart(item.UniqueId, attachment);
+
+
+                        if (entity is MessagePart)
+                        {
+                            var rfc822 = (MessagePart)entity;
+
+                            var path = Path.Combine(directory, attachment.PartSpecifier + ".eml");
+
+                            rfc822.Message.WriteTo(path);
+                        }
+                        else
+                        {
+                            var part = (MimePart)entity;
+
+                            // note: it's possible for this to be null, but most will specify a filename
+                            var fileName = part.FileName;
+
+                            var path = Path.Combine(directory, fileName);
+
+                            // decode and save the content to a file
+                            using (var stream = File.Create(path))
+                                part.ContentObject.DecodeTo(stream);
+                        }
+                    }
+                }
+
+                client.Disconnect(true);
             }
         }
     }

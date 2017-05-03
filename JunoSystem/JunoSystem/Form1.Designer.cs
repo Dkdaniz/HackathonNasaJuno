@@ -44,6 +44,7 @@
             this.radSolicitar = new System.Windows.Forms.RadioButton();
             this.lblEmail = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -77,9 +78,9 @@
             // btnInserir
             // 
             this.btnInserir.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-            this.btnInserir.Location = new System.Drawing.Point(57, 276);
+            this.btnInserir.Location = new System.Drawing.Point(26, 268);
             this.btnInserir.Name = "btnInserir";
-            this.btnInserir.Size = new System.Drawing.Size(183, 39);
+            this.btnInserir.Size = new System.Drawing.Size(117, 39);
             this.btnInserir.TabIndex = 2;
             this.btnInserir.Text = "Insert Device";
             this.btnInserir.UseVisualStyleBackColor = true;
@@ -214,11 +215,23 @@
             this.txtEmail.TabIndex = 12;
             this.txtEmail.UseWaitCursor = true;
             // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            this.button1.Location = new System.Drawing.Point(149, 268);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(156, 39);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Register New Email";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseWaitCursor = true;
+            // 
             // frmJunoSistema
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(317, 364);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.radSolicitar);
@@ -261,6 +274,7 @@
         private System.Windows.Forms.RadioButton radSolicitar;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Button button1;
     }
 }
 

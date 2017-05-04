@@ -9,8 +9,8 @@ namespace JunoSystem.CamadaBanco
     public class Importacao
     {
         public int IdImportacao { get; set; }       
-        public string Long { get; set; }
-        public string Lat { get; set; }
+        public string Longitude { get; set; }
+        public string Latitude { get; set; }
         public string Brilho { get; set; }
 
     }
